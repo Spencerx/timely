@@ -28,7 +28,7 @@ public abstract class CollectDPluginParent implements WritesMetrics, PluginLogge
     private static final String CODE = "code";
     private static final String PERIOD = ".";
     private static final Collection<String> HADOOP_CONTEXTS = Arrays.asList("NameNode", "DataNode", "JobManager", "NodeManager", "JobHistoryServer",
-                    "ResourceManager", "MRAppMaster");
+                    "ResourceManager", "MRAppMaster", "JvmMetrics", "MapTask", "ReduceTask");
     private static final Pattern STATSD_PATTERN_3_GROUPS = Pattern.compile("([\\w-_]+)\\.([\\w-_]+)\\.([\\w-_]+)");
     private static final Pattern STATSD_PATTERN_4_GROUPS = Pattern.compile("([\\w-_]+)\\.([\\w-_]+)\\.([\\w-_]+)\\.([\\w-_]+)");
     private static final Pattern STATSD_PATTERN_6_GROUPS = Pattern.compile("([\\w-_]+)\\.([\\w-_]+)\\.([\\w-_]+)\\.([\\w-_]+)\\.([\\w-_#]+)\\.([\\w-_]+)");
@@ -175,6 +175,12 @@ public abstract class CollectDPluginParent implements WritesMetrics, PluginLogge
                         int x = typeInstance.indexOf(".");
                         metric.append(STATSD_PREFIX).append(PERIOD).append(typeInstance.substring(x + 1));
                         addTag(tagMap, "queryId", parts[0]);
+                    } else if (statsd_4_groups.matches()) {
+                        // Here we are processing the statsd metrics coming from the Hadoop Metrics2 StatsDSink without the host name.
+                        // The format of metric is: serviceName.contextName.recordName.metricName. The recordName is typically duplicative
+                        // and is dropped here. The serviceName is used as the instance.
+                        metric.append(STATSD_PREFIX).append(PERIOD).append(statsd_4_groups.group(2)).append(PERIOD).append(statsd_4_groups.group(4));
+                        instance = statsd_4_groups.group(1);
                     } else if (parts.length >= 1) {
                         // EtsyStatsD format -- metric.(tagName.tagValue)*
                         // Will handle all key.value pairs and truncate at the end if line was malformed or truncated

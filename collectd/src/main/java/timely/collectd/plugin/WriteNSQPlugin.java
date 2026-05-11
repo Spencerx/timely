@@ -53,7 +53,7 @@ public class WriteNSQPlugin extends CollectDPluginParent implements CollectdConf
     @Override
     public void write(MetricData metricData) {
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream(); DataOutputStream out = new DataOutputStream(baos)) {
-            super.process(metricData, baos);
+            super.process(metricData, out);
             out.flush();
             send(baos);
         } catch (Exception e) {
@@ -177,6 +177,7 @@ public class WriteNSQPlugin extends CollectDPluginParent implements CollectdConf
         }
         this.clientPool = new GenericObjectPool<>(pooledCloseableHttpClientFactory, poolConfig);
         this.endpoint = "http://" + host + ":" + port + "/mpub?topic=" + topic;
+        super.config(configMap);
         return 0;
     }
 

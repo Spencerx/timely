@@ -4,19 +4,19 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.apache.accumulo.core.client.PluginEnvironment;
 import org.apache.accumulo.core.client.sample.SamplerConfiguration;
 import org.apache.accumulo.core.conf.AccumuloConfiguration;
 import org.apache.accumulo.core.conf.DefaultConfiguration;
 import org.apache.accumulo.core.data.ByteSequence;
 import org.apache.accumulo.core.data.Key;
+import org.apache.accumulo.core.data.TableId;
 import org.apache.accumulo.core.data.Value;
 import org.apache.accumulo.core.iterators.IteratorEnvironment;
 import org.apache.accumulo.core.iterators.IteratorUtil.IteratorScope;
 import org.apache.accumulo.core.iterators.SortedKeyValueIterator;
-import org.apache.accumulo.core.iteratorsImpl.system.MapFileIterator;
 import org.apache.accumulo.core.security.Authorizations;
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.fs.FileSystem;
+import org.apache.accumulo.core.spi.common.ServiceEnvironment;
 
 public class IteratorTestBase {
 
@@ -34,9 +34,7 @@ public class IteratorTestBase {
 
         @Override
         public SortedKeyValueIterator<Key,Value> reserveMapFileReader(String mapFileName) throws IOException {
-            Configuration conf = new Configuration();
-            FileSystem fs = FileSystem.get(conf);
-            return new MapFileIterator(fs, mapFileName, conf);
+            throw new UnsupportedOperationException();
         }
 
         @Override
@@ -72,6 +70,26 @@ public class IteratorTestBase {
         @Override
         public SamplerConfiguration getSamplerConfiguration() {
             throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public boolean isUserCompaction() {
+            return false;
+        }
+
+        @Override
+        public ServiceEnvironment getServiceEnv() {
+            return null;
+        }
+
+        @Override
+        public PluginEnvironment getPluginEnv() {
+            return null;
+        }
+
+        @Override
+        public TableId getTableId() {
+            return null;
         }
 
         @Override

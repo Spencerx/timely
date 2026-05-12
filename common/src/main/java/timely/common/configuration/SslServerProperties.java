@@ -21,8 +21,7 @@ public class SslServerProperties implements SslProperties {
 
     private static final Logger log = LoggerFactory.getLogger(SslServerProperties.class);
 
-    private String[] ciphers = new String[] {"TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256", "TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA", "TLS_RSA_WITH_AES_128_GCM_SHA256",
-            "TLS_RSA_WITH_AES_128_CBC_SHA", "SSL_RSA_WITH_3DES_EDE_CBC_SHA"};
+    private String[] ciphers = new String[] {"TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384", "TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384"};
     private String[] enabledProtocols;
     private String keyStoreType;
     private String keyStoreFile;

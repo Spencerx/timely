@@ -31,7 +31,7 @@
             }
         ],
         "screenshots": [],
-        "version": "2.2.2",
+        "version": "2.2.3-SNAPSHOT",
         "updated": "2026-05-11"
     },
     "dependencies": {

@@ -7,7 +7,7 @@ services:
       context: ./.config
       args:
         grafana_image: ${GRAFANA_IMAGE:-grafana-oss}
-        grafana_version: ${GRAFANA_VERSION:-11.5.2}
+        grafana_version: ${GRAFANA_VERSION:-13.0.1}
         development: ${DEVELOPMENT:-false}
         anonymous_auth_enabled: ${ANONYMOUS_AUTH_ENABLED:-true}
     ports:
@@ -34,7 +34,7 @@ services:
       GF_DATAPROXY_LOGGING: 1
       GF_SECURITY_COOKIE_SECURE: true
       GF_USERS_AUTO_ASSIGN_ORG_ROLE: Editor
-      GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS: timely-datasource
+      GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS: nsa-timely-datasource
       GF_SERVER_ENFORCE_DOMAIN: true
       GF_SERVER_CERT_FILE: /etc/pki/testServer.cert
       GF_SERVER_CERT_KEY: /etc/pki/testServer.key
